@@ -1,5 +1,9 @@
 # gNucleus Text To CAD MCP server
-A Model Context Protocol (MCP) server that connects to gNucleus API, allowing gNucleus GenAI Models to generate CAD parts/assemblies from text input.
+[gNucleus](https://gnucleus.ai) is a Generative AI platform that transforms text and images into editable CAD models.
+
+This repository contains the gNucleus Text-To-CAD MCP server, which connects to the gNucleus API. It allows MCP clients to generate CAD parts or assemblies from text input using gNucleus’s GenAI models.
+
+
 
 ## Prerequisites
 
@@ -20,12 +24,12 @@ A Model Context Protocol (MCP) server that connects to gNucleus API, allowing gN
    ```
 4. Create a `.env` file in the root directory with the following variables:
    
-   **Invidisual user**
+   **Invidisual User**
    ```
    GNUCLEUS_HOST="genai.gnucleus.ai"
    GNUCLEUS_API_KEY=<your-personal-api-key>
    ```
-   **Enterprise user**
+   **Enterprise User**
    ```
    GNUCLEUS_HOST="genai.gnucleus.ai"
    GNUCLEUS_API_KEY=<your-team-key>
