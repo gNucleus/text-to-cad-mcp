@@ -19,14 +19,15 @@ A Model Context Protocol (MCP) server that connects to gNucleus API, allowing gN
    pip install -r requirements.txt
    ```
 4. Create a `.env` file in the root directory with the following variables:
-   Invidisual user
+   
+   **Invidisual user**
    ```
    GNUCLEUS_HOST="genai.gnucleus.ai"
    GNUCLEUS_API_KEY=<your-personal-api-key>
    ```
-   Enterprise user
+   **Enterprise user**
    ```
-   GNUCLEUS_HOST="genai.dev.gnucleus.ai"
+   GNUCLEUS_HOST="genai.gnucleus.ai"
    GNUCLEUS_API_KEY=<your-team-key>
    GNUCLEUS_ORG_ID=<your-team-id>
    ```   
