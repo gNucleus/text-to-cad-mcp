@@ -69,14 +69,12 @@ def text_to_cad(input: str) -> str:
     # ----- call gNucleus API -----
     response = gnucleus_api_request("text_to_cad", {"input": input})
     if not response:
-        return f"gNucleus failed to generate CAD for '{input}'"
+        return f"gNucleus failed to generate CAD for '{input}' and no response from server, check your GNUCLEUS_HOST and GNUCLEUS_API_KEY"
 
     # ----- validate/normalize ID -----
     gnucleus_id = str(response.get("id", ""))
     if not gnucleus_id or not gnucleus_id.startswith("gnucleus-"):
-        return f"gNucleus failed to generate CAD for '{input}'"
-
-    shared_result_url = f"https://gnucleus.ai/app/viewer/{gnucleus_id}"
+        return f"gNucleus failed to generate CAD for '{input}' and the reponse is {response} "    
 
     # ----- build markdown -----
     result_lines: list[str] = []
@@ -87,10 +85,16 @@ def text_to_cad(input: str) -> str:
     conditions  = design_spec.get("conditions")
     description = design_spec.get("description")
 
+    shared_result_url = f"https://gnucleus.ai/app/viewer/{gnucleus_id}"
     if response.get("is_assembly", False):
         asm_info  = response.get("assemblies_info", {}) or {}
-        root_asm  = asm_info.get("root_assembly", "(unnamed assembly)")
-        result_lines.append(f"**Assembly:** `{root_asm}`\n")
+        root_asm  = asm_info.get("root_assembly", None)
+        if root_asm:
+            result_lines.append(f"**Assembly:** `{root_asm}`\n")
+            shared_result_url = f"https://gnucleus.ai/app/viewer/{gnucleus_id}/{root_asm}"
+            result_lines.append(f"\n⚙️⚙️⚙️ **View the generated Root Assembly in this viewer URL:** {shared_result_url}\n")
+        else:
+            result_lines.append(f"\n⚙️⚙️⚙️ **Unable to generated Root Assembly**. Please check your input and try again.\n")
 
         if key_params:
             result_lines.append("**Key Parameters (assembly)**\n\n")
@@ -118,9 +122,7 @@ def text_to_cad(input: str) -> str:
             result_lines.append(f"**Conditions:** {conditions}\n")
         if description:
             result_lines.append(f"**Description:** {description}\n")
-
-    # ----- always add the viewer link -----
-    result_lines.append(f"\n⚙️⚙️⚙️ **View the generated CAD in this viewer URL:** {shared_result_url}\n")
+        result_lines.append(f"\n⚙️⚙️⚙️ **View the generated CAD in this viewer URL:** {shared_result_url}\n")
 
     print("Generating response successfully", file=sys.stderr)
     return "\n".join(result_lines)
@@ -129,6 +131,9 @@ def text_to_cad(input: str) -> str:
 if __name__ == "__main__":
     # Print a startup message
     print("Starting gNucleus MCP Server...", file=sys.stderr)
+    print(f"GNUCLEUS_HOST is {GNUCLEUS_HOST}", file=sys.stderr)
+    if GNUCLEUS_ORG_ID:
+        print(f"GNUCLEUS_ORG_ID is {GNUCLEUS_ORG_ID}", file=sys.stderr)
     
     # Initialize and run the server
     try:

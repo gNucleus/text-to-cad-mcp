@@ -40,11 +40,10 @@ This repository contains the gNucleus Text-To-CAD MCP server, which connects to 
 
 1. **gNucleus Account**: sign-up on https://gnucleus.ai/
 2. **API KEY**: Create a personal access token in gNucleus:
-   - Go to User Settings (click your user icon in the top right)
-   - Select "Developer" tab
-   - Click "Manage" under "API Key"
-   - Generate a new API KEY, and save it immediately
-   - Each account start with 300 free API credit
+   - Go to User Profile (click your user icon in the top right)
+   - Go to "Account"
+   - Click "Generate New API Key" to generate a new API KEY
+   - Each account start with 200 free API credit
   
   
 ## Running the Server
@@ -81,7 +80,8 @@ i18n support: You can use any language as the prompt, in general english works b
 - Spanish: "Dibuja un bloque cuadrado de 10 mm en CAD"
 
 ### 2. Text to Assembly
-- "Generate a tapered roller bearing"
+- "generate a tapered roller bearing using text-to-cad tool"
+- "draw a differential gear box in CAD"
 
 ### 3. Result CAD Display
 The generated result include the design spec with **Key Parameter**, **Description** and a shared URL with 3D display viewer. The shared URL will be expired in 24 hrs. 
@@ -133,18 +133,29 @@ You should see the gNucleus Text-To-CAD tools in Claude
 
 
 ### 3. Chat with Claude to generate the CAD model
-Chat with Claude and add "in CAD" in each prompt can help Claude to trigger the Text-To-CAD tool better.
-![Chat with Claude to generate CAD](./image/text2cad-claude-chat.png)
+Chat with Claude and add "in CAD" in each prompt or tell Claude to use "text-to-cad tools"can help Claude to trigger the Text-To-CAD tool better.
 
-The generated result include the design spec with **Key Parameter**, **Description** and a shared link with 3D display viewer. The shared URL will be expired in 24 hrs. 
-
-If Claude didn't output the shared URL in the chat message, you can ask Claude to always output the shared URL.
+The generated result include the design spec with **Key Parameter**, **Description** and a shared link with 3D display viewer. The shared URL will be expired in 24 hrs. If Claude didn't output the shared URL in the chat message, you can ask Claude to always output the shared URL.
 
 Click the shared URL, it will display the CAD model in gNucleus 3D viewer, you can 
 - Rotate by holding the left mouse button
 - Pan by holding the right mouse button 
 - Zoom using the middle mouse button 
+
+***Example 1: Text To CAD Part***
+- Input and CAD Part design spec
+![Chat with Claude to generate CAD](./image/text2cad-claude-chat.png)
+
+- CAD Part in 3D viewer
 ![Display the generated CAD model in gNucleus Viewer](./image/text2cad-flange.png)
+
+***Example 2: Text To CAD Assembly***
+- Input and CAD Assembly design spec
+![Chat with Claude to generate CAD Assembly](./image/text2asm-claude-chat.png)
+
+- CAD Assembly in 3D viewer
+![Display the generated CAD Assembly in gNucleus Viewer](./image/text2asm-gearbox.png)
+
 
 Note: Downloading CAD models from the viewer is not yet supported. To download the model, please log in to https://gnucleus.ai and try the same prompt using the full feature set.
 
